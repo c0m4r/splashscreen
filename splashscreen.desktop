@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=TV Splash Screen
+Comment=Netflix/YouTube Splash Screen for TV
+Exec=/home/example/splashscreen/launch.sh
+Terminal=false
+Hidden=false
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=2

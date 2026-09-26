@@ -1,0 +1,375 @@
+/* ============================================
+   CSS Variables & Reset
+   ============================================ */
+:root {
+    --netflix-red: #E50914;
+    --netflix-dark: #141414;
+    --netflix-gradient: linear-gradient(135deg, #1a0a0a 0%, #2d0a0a 50%, #1a0a0a 100%);
+
+    --youtube-red: #FF0000;
+    --youtube-dark: #0f0f0f;
+    --youtube-gradient: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+
+    --glow-netflix: 0 0 60px rgba(229, 9, 20, 0.6), 0 0 120px rgba(229, 9, 20, 0.3);
+    --glow-youtube: 0 0 60px rgba(255, 0, 0, 0.6), 0 0 120px rgba(255, 0, 0, 0.3);
+
+    --transition-speed: 0.4s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    background: #000;
+}
+
+/* ============================================
+   Main Container
+   ============================================ */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ============================================
+   Option Sections
+   ============================================ */
+.option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.option::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+}
+
+#netflix {
+    background: var(--netflix-gradient);
+}
+
+#netflix::before {
+    background: radial-gradient(ellipse at center, rgba(229, 9, 20, 0.15) 0%, transparent 70%);
+}
+
+#youtube {
+    background: var(--youtube-gradient);
+}
+
+#youtube::before {
+    background: radial-gradient(ellipse at center, rgba(255, 0, 0, 0.15) 0%, transparent 70%);
+}
+
+/* ============================================
+   Option Content & Logos
+   ============================================ */
+.option-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo {
+    max-width: 400px;
+    height: auto;
+    filter: brightness(0.7) saturate(0.8);
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.youtube-logo {
+    max-width: 350px;
+    background: white;
+    padding: 20px 40px;
+    border-radius: 12px;
+}
+
+/* ============================================
+   Selection Indicator
+   ============================================ */
+.selection-indicator {
+    position: absolute;
+    inset: 0;
+    border: 4px solid transparent;
+    pointer-events: none;
+    transition: all var(--transition-speed) ease;
+}
+
+/* ============================================
+   Selected State
+   ============================================ */
+.option.selected::before {
+    opacity: 1;
+}
+
+.option.selected .option-content {
+    transform: scale(1.08);
+}
+
+.option.selected .logo {
+    filter: brightness(1.1) saturate(1.2);
+}
+
+#netflix.selected .selection-indicator {
+    border-color: var(--netflix-red);
+    box-shadow: var(--glow-netflix), inset 0 0 100px rgba(229, 9, 20, 0.1);
+}
+
+#youtube.selected .selection-indicator {
+    border-color: var(--youtube-red);
+    box-shadow: var(--glow-youtube), inset 0 0 100px rgba(255, 0, 0, 0.1);
+}
+
+/* Animated border glow for selected state */
+.option.selected .selection-indicator::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    animation: borderGlow 2s linear infinite;
+    opacity: 0.5;
+}
+
+#netflix.selected .selection-indicator::before {
+    color: var(--netflix-red);
+}
+
+#youtube.selected .selection-indicator::before {
+    color: var(--youtube-red);
+}
+
+@keyframes borderGlow {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Pulse animation for logo when selected */
+.option.selected .logo {
+    animation: logoPulse 2s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.03);
+    }
+}
+
+/* ============================================
+   Countdown Timer
+   ============================================ */
+.countdown {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    transform: none;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 10px 25px;
+    border-radius: 15px;
+    text-align: center;
+    z-index: 100;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.countdown-text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.countdown-number {
+    font-size: 48px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 10px;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.countdown-progress {
+    width: 150px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.countdown-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--netflix-red), #ff6b6b);
+    border-radius: 3px;
+    width: 100%;
+    transition: width 1s linear;
+}
+
+/* ============================================
+   TV Power-Off Animation
+   ============================================ */
+.option.launching {
+    animation: launchPulse 0.3s ease-out;
+}
+
+@keyframes launchPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* CRT TV Power-Off Effect */
+body.tv-off {
+    animation: tvOff 0.8s ease-in forwards;
+}
+
+body.tv-off::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: white;
+    z-index: 9999;
+    animation: tvFlash 0.8s ease-in forwards;
+    pointer-events: none;
+}
+
+body.tv-off::after {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 4px;
+    background: white;
+    transform: translateY(-50%);
+    z-index: 10000;
+    animation: tvLine 0.8s ease-in forwards;
+    box-shadow: 0 0 30px white, 0 0 60px white;
+    pointer-events: none;
+}
+
+@keyframes tvOff {
+    0% {
+        transform: scale(1, 1);
+        filter: brightness(1);
+    }
+
+    30% {
+        transform: scale(1.02, 0.8);
+        filter: brightness(1.3);
+    }
+
+    50% {
+        transform: scale(0.98, 0.02);
+        filter: brightness(2);
+    }
+
+    70% {
+        transform: scale(0.5, 0.01);
+        filter: brightness(3);
+    }
+
+    100% {
+        transform: scale(0, 0);
+        filter: brightness(0);
+    }
+}
+
+@keyframes tvFlash {
+    0% {
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 0;
+    }
+
+    45% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 0;
+        background: black;
+    }
+}
+
+@keyframes tvLine {
+    0% {
+        opacity: 0;
+        transform: translateY(-50%) scaleX(1);
+    }
+
+    30% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-50%) scaleX(1);
+    }
+
+    70% {
+        opacity: 1;
+        transform: translateY(-50%) scaleX(0.8);
+    }
+
+    85% {
+        opacity: 1;
+        transform: translateY(-50%) scaleX(0.3);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-50%) scaleX(0);
+    }
+}

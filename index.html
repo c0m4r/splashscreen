@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="TV Splash Screen - Choose Netflix or YouTube">
+    <title>TV Splash Screen</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Netflix Section (Top Half) -->
+        <div id="netflix" class="option selected" data-url="https://www.netflix.com/pl-en/">
+            <div class="option-content">
+                <img src="Netflix_Logo_RGB.png" alt="Netflix" class="logo">
+            </div>
+            <div class="selection-indicator"></div>
+        </div>
+
+        <!-- YouTube Section (Bottom Half) -->
+        <div id="youtube" class="option" data-url="https://www.youtube.com/">
+            <div class="option-content">
+                <img src="yt_logo_fullcolor_white_digital.png" alt="YouTube" class="logo youtube-logo">
+            </div>
+            <div class="selection-indicator"></div>
+        </div>
+
+        <!-- Countdown Timer -->
+        <div id="countdown" class="countdown">
+            <div class="countdown-text">Auto-starting in</div>
+            <div class="countdown-number">10</div>
+            <div class="countdown-progress">
+                <div class="countdown-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
